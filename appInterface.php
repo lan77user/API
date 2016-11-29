@@ -34,7 +34,7 @@ if ($rows) {
     return Response::show(401, "首页数据获取失败");
 }
 
-
+echo "hahah";
 
 ////PDO方式连接
 //$dbConnect = DB::getInstance()->pdoConnect();
