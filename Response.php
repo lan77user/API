@@ -117,9 +117,8 @@ class Response {
     }
 
 }
-$arr = array(
- 	'id' => 1,
- 	'name' => 'haha',
-        'type' => array(4,5,6), 
- );
-//Response::show(200,'succuess',$arr);
+//$arr = array(
+// 	'id' => 1,
+// 	'name' => 'haha',
+//        'type' => array(4,5,6), 
+// );

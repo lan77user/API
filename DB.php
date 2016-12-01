@@ -7,7 +7,7 @@ class DB {
     private $_dbConfig = [
         'host' => 'localhost',
         'user' => 'root',
-        'pass' => '1234556',
+        'pass' => '123456',
         'dbname' => 'movie',
         'port' => '3306',
     ];
@@ -34,10 +34,9 @@ class DB {
         if (!self::$_dbConnect) {
             self::$_dbConnect = new mysqli($this->_dbConfig['host'], $this->_dbConfig['user'], $this->_dbConfig['pass'], $this->_dbConfig['dbname']);
 //            判断数据库是否连接上
-            if (!self::$_dbConnect) {
-                var_dump(self::$_dbConnect->error());
-                die();
-                throw new Exception('mysql connect error'. self::$_dbConnect->error);
+            if (self::$_dbConnect->connect_error) {
+                throw new Exception('mysql connect error : '. self::$_dbConnect->connect_error);
+                var_dump(mysqli_connect_error());
             }
 
             self::$_dbConnect->select_db($this->_dbConfig['dbname']);
@@ -46,6 +45,7 @@ class DB {
         }
     }
 
+    
     /**
      * PDO方式连接数据库
      */
@@ -58,7 +58,6 @@ class DB {
             if (!self::$_dbConnect) {
                 die("没有连接到这样的主机");
             }
-
             self::$_dbConnect->select_db($this->_dbConfig['dbname']);
             self::$_dbConnect->set_charset("utf8");
             return self::$_dbConnect;

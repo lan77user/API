@@ -1,6 +1,6 @@
 <?php
 
-//    明确需求：生成缓存，获取缓存，删除缓存(这是静态魂村的一个类)
+//    需求：生成缓存，获取缓存，删除缓存(这是静态缓存的一个类)
 class Cache {
     
     private $_dir;
@@ -21,7 +21,6 @@ class Cache {
     public function cacheData($key,$val = '',$cacheTime = 0){
 //        拼装文件名
         $filename = $this->_dir  . $key . self::EXT;
-        
         
         /********************写入缓存************************/
 //        如果数据缓存有值，就是不为空，那就将value值写入缓存
@@ -49,15 +48,17 @@ class Cache {
         }
 //            不加true是返回对象形式
             $content = file_get_contents($filename);  //获取缓存文件的全部内容
-            $cacheTime = ltrim(substr($content, 0,11),'0');  //获取缓存时间
-            $value = substr($content, 11);     //获取缓存内容
-            if($cachetime != 0 && $cacheTime + filemtime($filename) < time()) {
+            $cacheTime =ltrim(substr($content, 0,11),'0');  //获取缓存时间
+            $val = substr($content, 11);     //获取缓存内容
+
+            if($cacheTime != 0 && $cacheTime + filemtime($filename) < time()) {
                 unlink($filename);
                 echo "缓存已过期！";
                 return false;
             }
-            return  json_decode($value,TRUE);
-        
+//            if() {
+            return  json_decode(file_get_contents($filename),TRUE);
+//            }
     }
 }
 
@@ -66,12 +67,9 @@ $arr = array(
  	'name' => 'haha',
         'type' => array(4,5,6), 
  );
-$cache = new Cache();
-echo $cache->cacheData("haha_cache",$arr, 10);
-//if($row) {
-//    echo "success";
-//}else {
-//    echo "error";
-//}
+//$cache = new Cache();
+//$cache->cacheData("haha_cache");
+//var_dump($cache->cacheData("haha_cache",$arr, 10));
+
 
 
