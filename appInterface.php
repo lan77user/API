@@ -34,7 +34,7 @@
         try {
             $dbConnect = DB::getInstance()->mysqliConnect();
         } catch (Exception $e) {
-    //    return $e->getMessage();//不要这样返回错误信息，因为这是和客户端进行接口通信的，这样很有可能把信息暴露出来
+//            return $e->getMessage();//不要这样返回错误信息，因为这是和客户端进行接口通信的，这样很有可能把信息暴露出来
             return Response::show(403, '数据库连接失败');
         }
         $result = $dbConnect->query($sql);
@@ -60,17 +60,18 @@
 
 
     ////PDO方式连接
-    //$dbConnect = DB::getInstance()->pdoConnect();
-    ////获取数据
-    //$result = $dbConnect->query($sql);
-    //$rows = array();
-    //foreach ($result as $rows) {
-    ////    print_r($rows);
-    //}
-    //if($rows) {
-    //    return Response::show(200,"首页数据获取成功",$rows);
-    //}else {
-    //    return Response::show(401,"首页数据获取失败");
-    //}
+    $dbConnect = DB::getInstance()->pdoConnect();
+    //获取数据
+    $result = $dbConnect->query($sql);
+    var_dump($result);
+    $rows = array();
+    foreach ($result as $rows) {
+    //    print_r($rows);
+    }
+    if($rows) {
+        return Response::show(200,"首页数据获取成功",$rows);
+    }else {
+        return Response::show(401,"首页数据获取失败");
+    }
 
 
